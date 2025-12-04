@@ -38,299 +38,345 @@ class LoanDetailScreen extends StatelessWidget {
     final remaining = loan.totalAmount - totalPaid;
     final progress = loan.totalAmount > 0 ? totalPaid / loan.totalAmount : 0.0;
 
+    // Sort payments by date (newest first)
+    final sortedPayments = List<Payment>.from(payments)
+      ..sort((a, b) => b.paymentDate.compareTo(a.paymentDate));
+
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? AppTheme.darkCard
-                                  : Colors.grey[100],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              Icons.arrow_back_rounded,
-                              color: isDark
-                                  ? Colors.white
-                                  : const Color(0xFF1A1A2E),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        TextButton.icon(
-                          onPressed: () =>
-                              _showEditLoanDialog(context, loan, storage),
-                          icon: const Icon(Icons.edit_rounded),
-                          label: const Text('Edit'),
-                        ),
-                        IconButton(
-                          onPressed: () =>
-                              _showDeleteConfirmation(context, storage),
-                          icon: const Icon(
-                            Icons.delete_outline_rounded,
-                            color: AppTheme.errorColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    // Loan Summary Card
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            // Fixed Header with Back button, Edit, Delete
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            _getStatusColor(loan.status),
-                            _getStatusColor(loan.status).withValues(alpha: 0.7),
-                          ],
-                        ),
+                        color: isDark ? AppTheme.darkCard : Colors.grey[100],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton.icon(
+                    onPressed: () =>
+                        _showEditLoanDialog(context, loan, storage),
+                    icon: const Icon(Icons.edit_rounded),
+                    label: const Text('Edit'),
+                  ),
+                  IconButton(
+                    onPressed: () => _showDeleteConfirmation(context, storage),
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: AppTheme.errorColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Fixed Total Amount Card
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      _getStatusColor(loan.status),
+                      _getStatusColor(loan.status).withValues(alpha: 0.7),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _getStatusColor(
+                        loan.status,
+                      ).withValues(alpha: 0.4),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: _getStatusColor(
-                              loan.status,
-                            ).withValues(alpha: 0.4),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                      ),
+                      child: Text(
+                        loan.status.name.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      currencyFormat.format(loan.totalAmount),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Total Amount',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
+                    ),
+                    if (customer != null) ...[
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.person_rounded,
+                            size: 16,
+                            color: Colors.white70,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            customer.name,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                            ),
                           ),
                         ],
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Scrollable content: Progress Card, Notes, Payment History header + list
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  // Payment Progress Card
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: AppTheme.cardDecoration(isDark),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Payment Progress',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: isDark
+                                        ? Colors.white
+                                        : const Color(0xFF1A1A2E),
+                                  ),
+                                ),
+                                Text(
+                                  '${(progress * 100).toStringAsFixed(1)}%',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: progress >= 1.0
+                                        ? AppTheme.successColor
+                                        : AppTheme.primaryDark,
+                                  ),
+                                ),
+                              ],
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              loan.status.name.toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                            const SizedBox(height: 12),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: LinearProgressIndicator(
+                                value: progress.clamp(0.0, 1.0),
+                                backgroundColor: isDark
+                                    ? Colors.white.withValues(alpha: 0.1)
+                                    : Colors.grey[200],
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  progress >= 1.0
+                                      ? AppTheme.successColor
+                                      : AppTheme.primaryDark,
+                                ),
+                                minHeight: 10,
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            currencyFormat.format(loan.totalAmount),
-                            style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Total Amount',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white.withValues(alpha: 0.8),
-                            ),
-                          ),
-                          if (customer != null) ...[
                             const SizedBox(height: 16),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(
-                                  Icons.person_rounded,
-                                  size: 16,
-                                  color: Colors.white70,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Paid',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: isDark
+                                              ? Colors.grey[500]
+                                              : Colors.grey[600],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        currencyFormat.format(totalPaid),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppTheme.successColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  customer.name,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white70,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Remaining',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: isDark
+                                              ? Colors.grey[500]
+                                              : Colors.grey[600],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        currencyFormat.format(remaining),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: isDark
+                                              ? Colors.white
+                                              : const Color(0xFF1A1A2E),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ],
-                        ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    // Progress Card
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: AppTheme.cardDecoration(isDark),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                  // Notes Card (if any)
+                  if (loan.notes.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: AppTheme.cardDecoration(isDark),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Payment Progress',
+                                'Notes',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   color: isDark
-                                      ? Colors.white
-                                      : const Color(0xFF1A1A2E),
+                                      ? Colors.grey[500]
+                                      : Colors.grey[600],
                                 ),
                               ),
+                              const SizedBox(height: 8),
                               Text(
-                                '${(progress * 100).toStringAsFixed(1)}%',
+                                loan.notes,
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: progress >= 1.0
-                                      ? AppTheme.successColor
-                                      : AppTheme.primaryDark,
+                                  fontSize: 14,
+                                  color: isDark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: LinearProgressIndicator(
-                              value: progress.clamp(0.0, 1.0),
-                              backgroundColor: isDark
-                                  ? Colors.white.withValues(alpha: 0.1)
-                                  : Colors.grey[200],
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                progress >= 1.0
-                                    ? AppTheme.successColor
-                                    : AppTheme.primaryDark,
-                              ),
-                              minHeight: 10,
+                        ),
+                      ),
+                    ),
+                  // Payment History Header
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Payment History',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? Colors.white
+                                  : const Color(0xFF1A1A2E),
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Paid',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: isDark
-                                            ? Colors.grey[500]
-                                            : Colors.grey[600],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      currencyFormat.format(totalPaid),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppTheme.successColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Remaining',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: isDark
-                                            ? Colors.grey[500]
-                                            : Colors.grey[600],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      currencyFormat.format(remaining),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark
-                                            ? Colors.white
-                                            : const Color(0xFF1A1A2E),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          Text(
+                            '${payments.length} payment${payments.length != 1 ? 's' : ''}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isDark
+                                  ? Colors.grey[500]
+                                  : Colors.grey[600],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    // Loan Details
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: AppTheme.cardDecoration(isDark),
-                      child: Column(
-                        children: [
-                          _buildDetailRow(
-                            'Principal',
-                            currencyFormat.format(loan.principal),
-                            Icons.account_balance_wallet_rounded,
-                            isDark,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildDetailRow(
-                            'Interest Rate',
-                            '${loan.interestRate.toStringAsFixed(1)}% per year',
-                            Icons.percent_rounded,
-                            isDark,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildDetailRow(
-                            'Start Date',
-                            DateFormat('MMM d, y').format(loan.startDate),
-                            Icons.calendar_today_rounded,
-                            isDark,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildDetailRow(
-                            'Due Date',
-                            DateFormat('MMM d, y').format(loan.dueDate),
-                            Icons.event_rounded,
-                            isDark,
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (loan.notes.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: AppTheme.cardDecoration(isDark),
+                  ),
+                  // Payment History List or Empty State
+                  if (sortedPayments.isEmpty)
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Icon(
+                              Icons.payments_rounded,
+                              size: 64,
+                              color: isDark
+                                  ? Colors.grey[700]
+                                  : Colors.grey[300],
+                            ),
+                            const SizedBox(height: 16),
                             Text(
-                              'Notes',
+                              'No payments yet',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                                 color: isDark
                                     ? Colors.grey[500]
                                     : Colors.grey[600],
@@ -338,176 +384,117 @@ class LoanDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              loan.notes,
+                              'Tap + to record a payment',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: isDark
-                                    ? Colors.grey[300]
-                                    : Colors.grey[700],
+                                    ? Colors.grey[600]
+                                    : Colors.grey[400],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Payment History',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? Colors.white
-                                : const Color(0xFF1A1A2E),
+                    )
+                  else
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final payment = sortedPayments[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 6,
                           ),
-                        ),
-                        Text(
-                          '${payments.length} payment${payments.length != 1 ? 's' : ''}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: isDark ? Colors.grey[500] : Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (payments.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.payments_rounded,
-                        size: 64,
-                        color: isDark ? Colors.grey[700] : Colors.grey[300],
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No payments yet',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: isDark ? Colors.grey[500] : Colors.grey[600],
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Tap + to record a payment',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDark ? Colors.grey[600] : Colors.grey[400],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            else
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  // Sort payments by date (newest first)
-                  final sortedPayments = List<Payment>.from(payments)
-                    ..sort((a, b) => b.paymentDate.compareTo(a.paymentDate));
-                  final payment = sortedPayments[index];
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 6,
-                    ),
-                    child: Dismissible(
-                      key: Key(payment.id),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 20),
-                        decoration: BoxDecoration(
-                          color: AppTheme.errorColor,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: const Icon(
-                          Icons.delete_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onDismissed: (direction) {
-                        storage.deletePayment(payment.id);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: AppTheme.cardDecoration(isDark),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              height: 48,
+                          child: Dismissible(
+                            key: Key(payment.id),
+                            direction: DismissDirection.endToStart,
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(right: 20),
                               decoration: BoxDecoration(
-                                color: AppTheme.successColor.withValues(
-                                  alpha: 0.15,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
+                                color: AppTheme.errorColor,
+                                borderRadius: BorderRadius.circular(16),
                               ),
                               child: const Icon(
-                                Icons.arrow_downward_rounded,
-                                color: AppTheme.successColor,
+                                Icons.delete_rounded,
+                                color: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            onDismissed: (direction) {
+                              storage.deletePayment(payment.id);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: AppTheme.cardDecoration(isDark),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    DateFormat(
-                                      'MMM d, y',
-                                    ).format(payment.paymentDate),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: isDark
-                                          ? Colors.white
-                                          : const Color(0xFF1A1A2E),
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.successColor.withValues(
+                                        alpha: 0.15,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_downward_rounded,
+                                      color: AppTheme.successColor,
                                     ),
                                   ),
-                                  if (payment.notes.isNotEmpty) ...[
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      payment.notes,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: isDark
-                                            ? Colors.grey[400]
-                                            : Colors.grey[600],
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          DateFormat(
+                                            'MMM d, y',
+                                          ).format(payment.paymentDate),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? Colors.white
+                                                : const Color(0xFF1A1A2E),
+                                          ),
+                                        ),
+                                        if (payment.notes.isNotEmpty) ...[
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            payment.notes,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: isDark
+                                                  ? Colors.grey[400]
+                                                  : Colors.grey[600],
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ],
                                     ),
-                                  ],
+                                  ),
+                                  Text(
+                                    currencyFormat.format(payment.amount),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.successColor,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            Text(
-                              currencyFormat.format(payment.amount),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.successColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      }, childCount: sortedPayments.length),
                     ),
-                  );
-                }, childCount: payments.length),
+                  const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                ],
               ),
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ),
           ],
         ),
       ),
@@ -519,40 +506,6 @@ class LoanDetailScreen extends StatelessWidget {
               label: const Text('Add Payment'),
             )
           : null,
-    );
-  }
-
-  Widget _buildDetailRow(
-    String label,
-    String value,
-    IconData icon,
-    bool isDark,
-  ) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 20,
-          color: isDark ? Colors.grey[500] : Colors.grey[600],
-        ),
-        const SizedBox(width: 12),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            color: isDark ? Colors.grey[400] : Colors.grey[600],
-          ),
-        ),
-        const Spacer(),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: isDark ? Colors.white : const Color(0xFF1A1A2E),
-          ),
-        ),
-      ],
     );
   }
 

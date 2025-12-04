@@ -461,6 +461,7 @@ class CustomerDetailScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Name *',
                   prefixIcon: Icon(Icons.person_rounded),
+                  counterText: '',
                 ),
                 textCapitalization: TextCapitalization.words,
                 maxLength: 32,
@@ -472,6 +473,7 @@ class CustomerDetailScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Phone',
                   prefixIcon: Icon(Icons.phone_rounded),
+                  counterText: '',
                 ),
                 keyboardType: TextInputType.phone,
                 maxLength: 11,
@@ -486,6 +488,7 @@ class CustomerDetailScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Address',
                   prefixIcon: Icon(Icons.location_on_rounded),
+                  counterText: '',
                 ),
                 textCapitalization: TextCapitalization.sentences,
                 maxLength: 120,
