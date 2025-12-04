@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../theme/app_theme.dart';
-import 'dashboard_screen.dart';
-import 'customers_screen.dart';
-import 'settings_screen.dart';
+import 'dashboard/dashboard_screen.dart';
+import 'customer/customers_screen.dart';
+import 'settings/settings_screen.dart';
 import 'account_screen.dart';
 
 class HomeScreen extends StatefulWidget {
