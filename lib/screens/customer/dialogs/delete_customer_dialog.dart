@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../services/storage_service.dart';
 import '../../../providers/theme_provider.dart';
@@ -27,13 +28,13 @@ void showDeleteCustomerConfirmation(
         backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'Cannot delete.',
+          'customer.delete'.tr(),
           style: TextStyle(
             color: isDark ? Colors.white : const Color(0xFF1A1A2E),
           ),
         ),
         content: Text(
-          'It cannot be deleted because there are still debts to be paid. It can be deleted after all debts are paid off.',
+          'customer.delete_warning'.tr(),
           style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
         ),
         actions: [
@@ -53,19 +54,19 @@ void showDeleteCustomerConfirmation(
       backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
-        'Delete Customer?',
+        'customer.delete_confirm'.tr(),
         style: TextStyle(
           color: isDark ? Colors.white : const Color(0xFF1A1A2E),
         ),
       ),
       content: Text(
-        'This will also delete all loans and payments associated with this customer. This action cannot be undone.',
+        'customer.delete_warning'.tr(),
         style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(dialogContext),
-          child: const Text('Cancel'),
+          child: Text('actions.cancel'.tr()),
         ),
         ElevatedButton(
           onPressed: () async {
@@ -79,7 +80,7 @@ void showDeleteCustomerConfirmation(
             }
           },
           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.errorColor),
-          child: const Text('Delete'),
+          child: Text('actions.delete'.tr()),
         ),
       ],
     ),

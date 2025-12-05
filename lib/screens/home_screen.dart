@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../providers/theme_provider.dart';
 import '../theme/app_theme.dart';
 import 'dashboard/dashboard_screen.dart';
@@ -52,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(), // Smooth scrolling physics
+        physics:
+            const NeverScrollableScrollPhysics(), // Smooth scrolling physics
         onPageChanged: (index) {
           HapticFeedback.selectionClick();
           setState(() => _currentIndex = index);
@@ -76,10 +78,30 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(0, Icons.dashboard_rounded, 'Dashboard', isDark),
-                _buildNavItem(1, Icons.people_rounded, 'Customers', isDark),
-                _buildNavItem(2, Icons.settings_rounded, 'Settings', isDark),
-                _buildNavItem(3, Icons.person_rounded, 'Account', isDark),
+                _buildNavItem(
+                  0,
+                  Icons.dashboard_rounded,
+                  'nav.dashboard'.tr(),
+                  isDark,
+                ),
+                _buildNavItem(
+                  1,
+                  Icons.people_rounded,
+                  'nav.customers'.tr(),
+                  isDark,
+                ),
+                _buildNavItem(
+                  2,
+                  Icons.settings_rounded,
+                  'nav.settings'.tr(),
+                  isDark,
+                ),
+                _buildNavItem(
+                  3,
+                  Icons.person_rounded,
+                  'nav.account'.tr(),
+                  isDark,
+                ),
               ],
             ),
           ),
@@ -97,41 +119,24 @@ class _HomeScreenState extends State<HomeScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
               ? AppTheme.primaryDark.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedScale(
-              scale: isSelected ? 1.1 : 1.0,
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeOutBack,
-              child: Icon(
-                icon,
-                color: isSelected
-                    ? AppTheme.primaryDark
-                    : (isDark ? Colors.grey[500] : Colors.grey[600]),
-                size: 24,
-              ),
-            ),
-            const SizedBox(height: 4),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: TextStyle(
-                color: isSelected
-                    ? AppTheme.primaryDark
-                    : (isDark ? Colors.grey[500] : Colors.grey[600]),
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              ),
-              child: Text(label),
-            ),
-          ],
+        child: AnimatedScale(
+          scale: isSelected ? 1.2 : 1.0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutBack,
+          child: Icon(
+            icon,
+            color: isSelected
+                ? AppTheme.primaryDark
+                : (isDark ? Colors.grey[500] : Colors.grey[600]),
+            size: 26,
+          ),
         ),
       ),
     );

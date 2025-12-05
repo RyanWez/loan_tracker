@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../services/storage_service.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme/app_theme.dart';
@@ -115,7 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
                   child: Text(
-                    'Overdue Loans',
+                    'dashboard.overdue_loans'.tr(),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -151,7 +152,7 @@ class _DashboardScreenState extends State<DashboardScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dashboard',
+            'dashboard.title'.tr(),
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -180,7 +181,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             children: [
               Expanded(
                 child: StatCard(
-                  title: 'Customers',
+                  title: 'dashboard.customers'.tr(),
                   value: storage.customers.length.toString(),
                   icon: Icons.people_rounded,
                   color: AppTheme.accentColor,
@@ -191,7 +192,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               const SizedBox(width: 16),
               Expanded(
                 child: StatCard(
-                  title: 'Active Loans',
+                  title: 'dashboard.active_loans'.tr(),
                   value: storage.activeLoansCount.toString(),
                   icon: Icons.receipt_long_rounded,
                   color: AppTheme.successColor,
@@ -206,7 +207,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             children: [
               Expanded(
                 child: StatCard(
-                  title: 'Overdue',
+                  title: 'dashboard.overdue'.tr(),
                   value: storage.overdueLoans.length.toString(),
                   icon: Icons.warning_rounded,
                   color: AppTheme.warningColor,
@@ -217,7 +218,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               const SizedBox(width: 16),
               Expanded(
                 child: StatCard(
-                  title: 'Total Loans',
+                  title: 'dashboard.total_loans'.tr(),
                   value: storage.loans.length.toString(),
                   icon: Icons.analytics_rounded,
                   color: AppTheme.primaryDark,

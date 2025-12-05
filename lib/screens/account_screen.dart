@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../providers/theme_provider.dart';
 import '../theme/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -69,7 +70,7 @@ class _AccountScreenState extends State<AccountScreen>
                 child: SlideTransition(
                   position: _slideAnimation,
                   child: Text(
-                    'Account',
+                    'account.title'.tr(),
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class _AccountScreenState extends State<AccountScreen>
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'For Small Communities',
+                        'app.tagline'.tr(),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white.withValues(alpha: 0.8),
@@ -147,7 +148,7 @@ class _AccountScreenState extends State<AccountScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ABOUT',
+                      'account.about'.tr(),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

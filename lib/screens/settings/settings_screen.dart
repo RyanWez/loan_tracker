@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_toast.dart';
+import '../../utils/app_localization.dart';
 
 // Import widgets
 import 'widgets/theme_option_tile.dart';
 import 'widgets/currency_info_card.dart';
 import 'widgets/settings_item_tile.dart';
+import 'widgets/language_option_tile.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -73,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 child: SlideTransition(
                   position: _slideAnimation,
                   child: Text(
-                    'Settings',
+                    'settings.title'.tr(),
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -90,14 +93,14 @@ class _SettingsScreenState extends State<SettingsScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSectionTitle('APPEARANCE', isDark),
+                    _buildSectionTitle('settings.appearance'.tr(), isDark),
                     const SizedBox(height: 16),
                     Container(
                       decoration: AppTheme.cardDecoration(isDark),
                       child: Column(
                         children: [
                           ThemeOptionTile(
-                            title: 'Dark Mode',
+                            title: 'settings.dark_mode'.tr(),
                             icon: Icons.dark_mode_rounded,
                             value: true,
                             themeProvider: themeProvider,
@@ -105,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                           ),
                           _buildDivider(isDark),
                           ThemeOptionTile(
-                            title: 'Light Mode',
+                            title: 'settings.light_mode'.tr(),
                             icon: Icons.light_mode_rounded,
                             value: false,
                             themeProvider: themeProvider,
@@ -120,13 +123,49 @@ class _SettingsScreenState extends State<SettingsScreen>
 
               const SizedBox(height: 32),
 
-              // Currency Section
+              // Language Section
               _buildAnimatedSection(
                 index: 1,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSectionTitle('CURRENCY', isDark),
+                    _buildSectionTitle('settings.language'.tr(), isDark),
+                    const SizedBox(height: 16),
+                    Container(
+                      decoration: AppTheme.cardDecoration(isDark),
+                      child: Column(
+                        children: [
+                          LanguageOptionTile(
+                            title: 'settings.english'.tr(),
+                            icon: Icons.language_rounded,
+                            locale: AppLocales.en,
+                            isSelected: context.locale == AppLocales.en,
+                            onTap: () => context.setLocale(AppLocales.en),
+                          ),
+                          _buildDivider(isDark),
+                          LanguageOptionTile(
+                            title: 'settings.myanmar'.tr(),
+                            icon: Icons.translate_rounded,
+                            locale: AppLocales.my,
+                            isSelected: context.locale == AppLocales.my,
+                            onTap: () => context.setLocale(AppLocales.my),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // Currency Section
+              _buildAnimatedSection(
+                index: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSectionTitle('settings.currency'.tr(), isDark),
                     const SizedBox(height: 16),
                     CurrencyInfoCard(isDark: isDark),
                   ],
@@ -137,40 +176,40 @@ class _SettingsScreenState extends State<SettingsScreen>
 
               // Data Section
               _buildAnimatedSection(
-                index: 2,
+                index: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSectionTitle('DATA', isDark),
+                    _buildSectionTitle('settings.data'.tr(), isDark),
                     const SizedBox(height: 16),
                     Container(
                       decoration: AppTheme.cardDecoration(isDark),
                       child: Column(
                         children: [
                           SettingsItemTile(
-                            title: 'Export Data',
-                            subtitle: 'Export all data as JSON',
+                            title: 'settings.export'.tr(),
+                            subtitle: 'settings.export_desc'.tr(),
                             icon: Icons.download_rounded,
                             color: AppTheme.accentColor,
                             isDark: isDark,
                             onTap: () {
                               AppToast.showWarning(
                                 context,
-                                'Export feature coming soon',
+                                'settings.coming_soon'.tr(),
                               );
                             },
                           ),
                           _buildDivider(isDark),
                           SettingsItemTile(
-                            title: 'Import Data',
-                            subtitle: 'Import data from backup',
+                            title: 'settings.import'.tr(),
+                            subtitle: 'settings.import_desc'.tr(),
                             icon: Icons.upload_rounded,
                             color: AppTheme.primaryDark,
                             isDark: isDark,
                             onTap: () {
                               AppToast.showWarning(
                                 context,
-                                'Import feature coming soon',
+                                'settings.coming_soon'.tr(),
                               );
                             },
                           ),

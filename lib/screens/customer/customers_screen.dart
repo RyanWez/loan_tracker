@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../services/storage_service.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme/app_theme.dart';
@@ -107,7 +108,7 @@ class _CustomersScreenState extends State<CustomersScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Customers',
+            'customer.title'.tr(),
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -123,7 +124,7 @@ class _CustomersScreenState extends State<CustomersScreen>
                   controller: _searchController,
                   onChanged: (value) => setState(() => _searchQuery = value),
                   decoration: InputDecoration(
-                    hintText: 'Search customers...',
+                    hintText: 'customer.search'.tr(),
                     hintStyle: TextStyle(
                       color: isDark ? Colors.grey[500] : Colors.grey[400],
                     ),
@@ -161,14 +162,18 @@ class _CustomersScreenState extends State<CustomersScreen>
                       horizontal: 16,
                       vertical: 14,
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.add_rounded, color: Colors.white, size: 20),
-                        SizedBox(width: 6),
+                        const Icon(
+                          Icons.add_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 6),
                         Text(
-                          'Add',
-                          style: TextStyle(
+                          'actions.add'.tr(),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           ),
@@ -206,8 +211,8 @@ class _CustomersScreenState extends State<CustomersScreen>
               const SizedBox(height: 16),
               Text(
                 _searchQuery.isEmpty
-                    ? 'No customers yet'
-                    : 'No customers found',
+                    ? 'customer.no_customers'.tr()
+                    : 'customer.no_customers'.tr(),
                 style: TextStyle(
                   fontSize: 16,
                   color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -216,7 +221,7 @@ class _CustomersScreenState extends State<CustomersScreen>
               if (_searchQuery.isEmpty) ...[
                 const SizedBox(height: 8),
                 Text(
-                  'Tap Add to add your first customer',
+                  'customer.add_first'.tr(),
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? Colors.grey[600] : Colors.grey[400],

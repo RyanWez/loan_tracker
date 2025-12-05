@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/customer.dart';
 import '../../../services/storage_service.dart';
 import '../../../providers/theme_provider.dart';
@@ -50,7 +51,7 @@ void showEditCustomerDialog(
             ),
             const SizedBox(height: 24),
             Text(
-              'Edit Customer',
+              'customer.edit'.tr(),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -60,9 +61,9 @@ void showEditCustomerDialog(
             const SizedBox(height: 24),
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name *',
-                prefixIcon: Icon(Icons.person_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.name_required'.tr(),
+                prefixIcon: const Icon(Icons.person_rounded),
                 counterText: '',
               ),
               textCapitalization: TextCapitalization.words,
@@ -72,9 +73,9 @@ void showEditCustomerDialog(
             const SizedBox(height: 16),
             TextField(
               controller: phoneController,
-              decoration: const InputDecoration(
-                labelText: 'Phone',
-                prefixIcon: Icon(Icons.phone_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.phone'.tr(),
+                prefixIcon: const Icon(Icons.phone_rounded),
                 counterText: '',
               ),
               keyboardType: TextInputType.phone,
@@ -87,9 +88,9 @@ void showEditCustomerDialog(
             const SizedBox(height: 16),
             TextField(
               controller: addressController,
-              decoration: const InputDecoration(
-                labelText: 'Address',
-                prefixIcon: Icon(Icons.location_on_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.address'.tr(),
+                prefixIcon: const Icon(Icons.location_on_rounded),
                 counterText: '',
               ),
               textCapitalization: TextCapitalization.sentences,
@@ -99,9 +100,9 @@ void showEditCustomerDialog(
             const SizedBox(height: 16),
             TextField(
               controller: notesController,
-              decoration: const InputDecoration(
-                labelText: 'Notes',
-                prefixIcon: Icon(Icons.note_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.notes'.tr(),
+                prefixIcon: const Icon(Icons.note_rounded),
               ),
               maxLines: 2,
               maxLength: 50,
@@ -113,7 +114,10 @@ void showEditCustomerDialog(
               child: ElevatedButton(
                 onPressed: () {
                   if (nameController.text.trim().isEmpty) {
-                    AppToast.showError(context, 'Name is required');
+                    AppToast.showError(
+                      context,
+                      'customer.name_required_msg'.tr(),
+                    );
                     return;
                   }
 
@@ -126,7 +130,7 @@ void showEditCustomerDialog(
                   storage.updateCustomer(customer);
                   Navigator.pop(context);
                 },
-                child: const Text('Save Changes'),
+                child: Text('actions.save'.tr()),
               ),
             ),
             const SizedBox(height: 16),

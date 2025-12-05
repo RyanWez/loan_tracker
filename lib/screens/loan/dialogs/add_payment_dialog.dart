@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../models/payment.dart';
 import '../../../services/storage_service.dart';
@@ -61,7 +62,7 @@ void showAddPaymentDialog(
               ),
               const SizedBox(height: 24),
               Text(
-                'Add Payment',
+                'payment.add'.tr(),
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -70,7 +71,7 @@ void showAddPaymentDialog(
               ),
               const SizedBox(height: 8),
               Text(
-                'Remaining: ${currencyFormat.format(remaining)}',
+                '${'loan.remaining'.tr()}: ${currencyFormat.format(remaining)}',
                 style: TextStyle(
                   fontSize: 14,
                   color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -79,9 +80,9 @@ void showAddPaymentDialog(
               const SizedBox(height: 24),
               TextField(
                 controller: amountController,
-                decoration: const InputDecoration(
-                  labelText: 'Amount (MMK) *',
-                  prefixIcon: Icon(Icons.attach_money_rounded),
+                decoration: InputDecoration(
+                  labelText: 'payment.amount_required'.tr(),
+                  prefixIcon: const Icon(Icons.attach_money_rounded),
                 ),
                 keyboardType: TextInputType.number,
                 inputFormatters: [
@@ -123,7 +124,7 @@ void showAddPaymentDialog(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Payment Date',
+                            'payment.date'.tr(),
                             style: TextStyle(
                               fontSize: 12,
                               color: isDark
@@ -149,9 +150,9 @@ void showAddPaymentDialog(
               const SizedBox(height: 16),
               TextField(
                 controller: notesController,
-                decoration: const InputDecoration(
-                  labelText: 'Notes',
-                  prefixIcon: Icon(Icons.note_rounded),
+                decoration: InputDecoration(
+                  labelText: 'payment.notes'.tr(),
+                  prefixIcon: const Icon(Icons.note_rounded),
                 ),
                 textCapitalization: TextCapitalization.sentences,
                 maxLength: 50,
@@ -167,7 +168,7 @@ void showAddPaymentDialog(
                     if (amount == null || amount <= 0) {
                       AppToast.showError(
                         context,
-                        'Please enter a valid amount',
+                        'payment.amount_required_msg'.tr(),
                       );
                       return;
                     }
@@ -175,7 +176,7 @@ void showAddPaymentDialog(
                     if (amount > remaining) {
                       AppToast.showWarning(
                         context,
-                        'Payment cannot exceed remaining amount (${currencyFormat.format(remaining)})',
+                        'payment.exceed_warning'.tr(),
                       );
                       return;
                     }
@@ -207,7 +208,7 @@ void showAddPaymentDialog(
 
                     Navigator.pop(context);
                   },
-                  child: const Text('Add Payment'),
+                  child: Text('payment.add'.tr()),
                 ),
               ),
               const SizedBox(height: 16),

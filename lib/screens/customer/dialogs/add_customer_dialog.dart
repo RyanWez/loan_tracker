@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/customer.dart';
 import '../../../services/storage_service.dart';
 import '../../../providers/theme_provider.dart';
@@ -48,7 +49,7 @@ void showAddCustomerDialog(BuildContext context) {
             ),
             const SizedBox(height: 24),
             Text(
-              'Add Customer',
+              'customer.add'.tr(),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -58,9 +59,9 @@ void showAddCustomerDialog(BuildContext context) {
             const SizedBox(height: 24),
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name *',
-                prefixIcon: Icon(Icons.person_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.name_required'.tr(),
+                prefixIcon: const Icon(Icons.person_rounded),
                 counterText: '',
               ),
               textCapitalization: TextCapitalization.words,
@@ -70,9 +71,9 @@ void showAddCustomerDialog(BuildContext context) {
             const SizedBox(height: 16),
             TextField(
               controller: phoneController,
-              decoration: const InputDecoration(
-                labelText: 'Phone',
-                prefixIcon: Icon(Icons.phone_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.phone'.tr(),
+                prefixIcon: const Icon(Icons.phone_rounded),
                 counterText: '',
               ),
               keyboardType: TextInputType.phone,
@@ -85,9 +86,9 @@ void showAddCustomerDialog(BuildContext context) {
             const SizedBox(height: 16),
             TextField(
               controller: addressController,
-              decoration: const InputDecoration(
-                labelText: 'Address',
-                prefixIcon: Icon(Icons.location_on_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.address'.tr(),
+                prefixIcon: const Icon(Icons.location_on_rounded),
                 counterText: '',
               ),
               textCapitalization: TextCapitalization.sentences,
@@ -97,9 +98,9 @@ void showAddCustomerDialog(BuildContext context) {
             const SizedBox(height: 16),
             TextField(
               controller: notesController,
-              decoration: const InputDecoration(
-                labelText: 'Notes',
-                prefixIcon: Icon(Icons.note_rounded),
+              decoration: InputDecoration(
+                labelText: 'customer.notes'.tr(),
+                prefixIcon: const Icon(Icons.note_rounded),
               ),
               maxLines: 2,
               maxLength: 50,
@@ -112,7 +113,10 @@ void showAddCustomerDialog(BuildContext context) {
                 onPressed: () {
                   final name = nameController.text.trim();
                   if (name.isEmpty) {
-                    AppToast.showError(context, 'Name is required');
+                    AppToast.showError(
+                      context,
+                      'customer.name_required_msg'.tr(),
+                    );
                     return;
                   }
 
@@ -121,10 +125,7 @@ void showAddCustomerDialog(BuildContext context) {
                     (c) => c.name.toLowerCase() == name.toLowerCase(),
                   );
                   if (existingCustomer) {
-                    AppToast.showWarning(
-                      context,
-                      'Customer with this name already exists',
-                    );
+                    AppToast.showWarning(context, 'customer.duplicate'.tr());
                     return;
                   }
 
@@ -142,7 +143,7 @@ void showAddCustomerDialog(BuildContext context) {
                   storage.addCustomer(customer);
                   Navigator.pop(context);
                 },
-                child: const Text('Add Customer'),
+                child: Text('customer.add'.tr()),
               ),
             ),
             const SizedBox(height: 16),

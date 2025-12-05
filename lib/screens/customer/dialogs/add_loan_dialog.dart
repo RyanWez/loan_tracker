@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../services/storage_service.dart';
 import '../../../providers/theme_provider.dart';
@@ -54,7 +55,7 @@ void showAddLoanDialog(
               ),
               const SizedBox(height: 24),
               Text(
-                'Add Loan',
+                'loan.add'.tr(),
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -64,9 +65,9 @@ void showAddLoanDialog(
               const SizedBox(height: 24),
               TextField(
                 controller: principalController,
-                decoration: const InputDecoration(
-                  labelText: 'Amount (MMK) *',
-                  prefixIcon: Icon(Icons.attach_money_rounded),
+                decoration: InputDecoration(
+                  labelText: 'loan.amount_required'.tr(),
+                  prefixIcon: const Icon(Icons.attach_money_rounded),
                 ),
                 keyboardType: TextInputType.number,
                 inputFormatters: [
@@ -108,7 +109,7 @@ void showAddLoanDialog(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Loan Date',
+                            'loan.start_date'.tr(),
                             style: TextStyle(
                               fontSize: 12,
                               color: isDark
@@ -134,9 +135,9 @@ void showAddLoanDialog(
               const SizedBox(height: 16),
               TextField(
                 controller: notesController,
-                decoration: const InputDecoration(
-                  labelText: 'Notes',
-                  prefixIcon: Icon(Icons.note_rounded),
+                decoration: InputDecoration(
+                  labelText: 'loan.notes'.tr(),
+                  prefixIcon: const Icon(Icons.note_rounded),
                 ),
                 maxLines: 2,
                 maxLength: 50,
@@ -153,7 +154,7 @@ void showAddLoanDialog(
                     if (principal == null || principal <= 0) {
                       AppToast.showError(
                         context,
-                        'Please enter a valid amount',
+                        'loan.amount_required_msg'.tr(),
                       );
                       return;
                     }
@@ -183,7 +184,7 @@ void showAddLoanDialog(
                     storage.addLoan(loan);
                     Navigator.pop(context);
                   },
-                  child: const Text('Add Loan'),
+                  child: Text('loan.add'.tr()),
                 ),
               ),
               const SizedBox(height: 16),

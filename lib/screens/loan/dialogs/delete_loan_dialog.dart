@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../services/storage_service.dart';
 import '../../../providers/theme_provider.dart';
@@ -26,13 +27,13 @@ void showDeleteLoanConfirmation(
         backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'Cannot delete.',
+          'loan.delete'.tr(),
           style: TextStyle(
             color: isDark ? Colors.white : const Color(0xFF1A1A2E),
           ),
         ),
         content: Text(
-          'It can only be deleted after the debt is repaid.',
+          'loan.delete_warning'.tr(),
           style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
         ),
         actions: [
@@ -52,19 +53,19 @@ void showDeleteLoanConfirmation(
       backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
-        'Delete Loan?',
+        'loan.delete_confirm'.tr(),
         style: TextStyle(
           color: isDark ? Colors.white : const Color(0xFF1A1A2E),
         ),
       ),
       content: Text(
-        'This will also delete all payments for this loan. This action cannot be undone.',
+        'loan.delete_warning'.tr(),
         style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(dialogContext),
-          child: const Text('Cancel'),
+          child: Text('actions.cancel'.tr()),
         ),
         ElevatedButton(
           onPressed: () async {
@@ -78,7 +79,7 @@ void showDeleteLoanConfirmation(
             }
           },
           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.errorColor),
-          child: const Text('Delete'),
+          child: Text('actions.delete'.tr()),
         ),
       ],
     ),

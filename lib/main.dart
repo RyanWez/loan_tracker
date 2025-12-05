@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'providers/theme_provider.dart';
 import 'services/storage_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
+import 'utils/app_localization.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: AppLocales.supportedLocales,
+      path: AppLocales.path,
+      fallbackLocale: AppLocales.fallbackLocale,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +29,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Loan Tracker',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       theme: AppTheme.darkTheme,
       home: const SplashWrapper(),
     );
@@ -107,6 +121,9 @@ class _SplashWrapperState extends State<SplashWrapper>
             return MaterialApp(
               title: 'Loan Tracker',
               debugShowCheckedModeBanner: false,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
               themeMode: themeProvider.themeMode,
