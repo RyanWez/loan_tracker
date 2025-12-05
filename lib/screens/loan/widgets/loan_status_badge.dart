@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../theme/app_theme.dart';
 
@@ -11,6 +12,18 @@ Color getStatusColor(LoanStatus status) {
       return AppTheme.successColor;
     case LoanStatus.overdue:
       return AppTheme.warningColor;
+  }
+}
+
+/// Returns the localized status text for a loan status
+String getLocalizedStatus(LoanStatus status) {
+  switch (status) {
+    case LoanStatus.active:
+      return 'loan.active'.tr();
+    case LoanStatus.completed:
+      return 'loan.completed'.tr();
+    case LoanStatus.overdue:
+      return 'loan.overdue'.tr();
   }
 }
 
@@ -29,7 +42,7 @@ class LoanStatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        status.name.toUpperCase(),
+        getLocalizedStatus(status).toUpperCase(),
         style: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,

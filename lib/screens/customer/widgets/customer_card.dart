@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/customer.dart';
 import '../../../services/storage_service.dart';
 import '../../../theme/app_theme.dart';
@@ -102,7 +103,7 @@ class CustomerCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '$activeLoans loan${activeLoans > 1 ? 's' : ''}',
+                    '$activeLoans ${'loan.active'.tr()}',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

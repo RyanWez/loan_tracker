@@ -86,7 +86,7 @@ void showAddPaymentDialog(
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(11),
+                  LengthLimitingTextInputFormatter(8),
                   CurrencyInputFormatter(),
                 ],
               ),

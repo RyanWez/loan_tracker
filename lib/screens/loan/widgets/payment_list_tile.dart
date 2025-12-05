@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/payment.dart';
 import '../../../theme/app_theme.dart';
 
@@ -25,26 +25,26 @@ class PaymentListTile extends StatelessWidget {
         backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'Delete Payment?',
+          'payment.delete_confirm'.tr(),
           style: TextStyle(
             color: isDark ? Colors.white : const Color(0xFF1A1A2E),
           ),
         ),
         content: Text(
-          'Are you sure you want to delete this payment of ${currencyFormat.format(payment.amount)}? This action cannot be undone.',
+          'payment.delete_warning'.tr(),
           style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancel'),
+            child: Text('actions.cancel'.tr()),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.errorColor,
             ),
-            child: const Text('Delete'),
+            child: Text('actions.delete'.tr()),
           ),
         ],
       ),
@@ -116,7 +116,7 @@ class PaymentListTile extends StatelessWidget {
               ),
               Text(
                 currencyFormat.format(payment.amount),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.successColor,

@@ -40,7 +40,7 @@ void showDeleteCustomerConfirmation(
         actions: [
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('OK'),
+            child: Text('actions.ok'.tr()),
           ),
         ],
       ),

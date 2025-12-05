@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../models/loan.dart';
 import '../../models/payment.dart';
 import '../../services/storage_service.dart';
@@ -35,8 +35,8 @@ class LoanDetailScreen extends StatelessWidget {
 
     if (loan == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Loan')),
-        body: const Center(child: Text('Loan not found')),
+        appBar: AppBar(title: Text('loan.title'.tr())),
+        body: Center(child: Text('loan.not_found'.tr())),
       );
     }
 
@@ -94,7 +94,7 @@ class LoanDetailScreen extends StatelessWidget {
                 remaining,
               ),
               icon: const Icon(Icons.add_rounded),
-              label: const Text('Add Payment'),
+              label: Text('payment.add'.tr()),
             )
           : null,
     );
@@ -128,7 +128,7 @@ class LoanDetailScreen extends StatelessWidget {
           TextButton.icon(
             onPressed: () => showEditLoanDialog(context, loan, storage),
             icon: const Icon(Icons.edit_rounded),
-            label: const Text('Edit'),
+            label: Text('actions.edit'.tr()),
           ),
           IconButton(
             onPressed: () =>
@@ -186,7 +186,7 @@ class LoanDetailScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Payment History',
+                  'payment.title'.tr(),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -194,7 +194,7 @@ class LoanDetailScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$paymentCount payment${paymentCount != 1 ? 's' : ''}',
+                  '$paymentCount',
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -244,7 +244,7 @@ class LoanDetailScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Payment Progress',
+                'loan.payment_progress'.tr(),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -285,7 +285,7 @@ class LoanDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Paid',
+                      'dashboard.paid'.tr(),
                       style: TextStyle(
                         fontSize: 12,
                         color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -294,7 +294,7 @@ class LoanDetailScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       currencyFormat.format(totalPaid),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.successColor,
@@ -308,7 +308,7 @@ class LoanDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Remaining',
+                      'loan.remaining'.tr(),
                       style: TextStyle(
                         fontSize: 12,
                         color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -342,7 +342,7 @@ class LoanDetailScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Notes',
+            'loan.notes'.tr(),
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -374,7 +374,7 @@ class LoanDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'No payments yet',
+            'payment.no_payments'.tr(),
             style: TextStyle(
               fontSize: 16,
               color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -382,7 +382,7 @@ class LoanDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Tap + to record a payment',
+            'payment.add_hint'.tr(),
             style: TextStyle(
               fontSize: 14,
               color: isDark ? Colors.grey[600] : Colors.grey[400],

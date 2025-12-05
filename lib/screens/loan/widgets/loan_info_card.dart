@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/customer.dart';
 import '../../../models/loan.dart';
 import 'loan_status_badge.dart';
@@ -54,7 +54,7 @@ class LoanInfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Total Amount',
+            'loan.total_amount'.tr(),
             style: TextStyle(
               fontSize: 14,
               color: Colors.white.withValues(alpha: 0.8),

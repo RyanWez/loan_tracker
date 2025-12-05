@@ -33,13 +33,13 @@ void showDeleteLoanConfirmation(
           ),
         ),
         content: Text(
-          'loan.delete_warning'.tr(),
+          'loan.cannot_delete'.tr(),
           style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
         ),
         actions: [
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('OK'),
+            child: Text('actions.ok'.tr()),
           ),
         ],
       ),

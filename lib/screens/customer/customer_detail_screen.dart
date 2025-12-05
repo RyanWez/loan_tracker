@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../models/customer.dart';
 import '../../services/storage_service.dart';
 import '../../providers/theme_provider.dart';
@@ -37,8 +37,8 @@ class CustomerDetailScreen extends StatelessWidget {
 
     if (customer == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Customer')),
-        body: const Center(child: Text('Customer not found')),
+        appBar: AppBar(title: Text('customer.title'.tr())),
+        body: Center(child: Text('customer.not_found'.tr())),
       );
     }
 
@@ -131,7 +131,7 @@ class CustomerDetailScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Loans',
+            'customer.loans'.tr(),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -141,7 +141,7 @@ class CustomerDetailScreen extends StatelessWidget {
           Row(
             children: [
               Text(
-                '$loanCount total',
+                '$loanCount',
                 style: TextStyle(
                   fontSize: 14,
                   color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -159,14 +159,18 @@ class CustomerDetailScreen extends StatelessWidget {
                       horizontal: 16,
                       vertical: 12,
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.add_rounded, color: Colors.white, size: 22),
-                        SizedBox(width: 6),
+                        const Icon(
+                          Icons.add_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 6),
                         Text(
-                          'Add',
-                          style: TextStyle(
+                          'actions.add'.tr(),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
@@ -203,7 +207,7 @@ class CustomerDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'No loans yet',
+              'customer.no_loans'.tr(),
               style: TextStyle(
                 fontSize: 16,
                 color: isDark ? Colors.grey[500] : Colors.grey[600],
@@ -211,7 +215,7 @@ class CustomerDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Tap Add to create a loan',
+              'customer.add_loan_hint'.tr(),
               style: TextStyle(
                 fontSize: 14,
                 color: isDark ? Colors.grey[600] : Colors.grey[400],

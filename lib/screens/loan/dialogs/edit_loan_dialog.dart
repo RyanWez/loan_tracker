@@ -72,7 +72,7 @@ void showEditLoanDialog(
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(11),
+                  LengthLimitingTextInputFormatter(8),
                   CurrencyInputFormatter(),
                 ],
               ),
@@ -160,10 +160,7 @@ void showEditLoanDialog(
                     }
 
                     if (principal > 99999999) {
-                      AppToast.showWarning(
-                        context,
-                        'Maximum amount is 99,999,999 MMK',
-                      );
+                      AppToast.showWarning(context, 'messages.max_amount'.tr());
                       return;
                     }
 

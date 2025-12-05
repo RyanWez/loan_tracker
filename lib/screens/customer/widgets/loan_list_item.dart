@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../models/loan.dart';
 import '../../../theme/app_theme.dart';
 
@@ -12,6 +12,18 @@ Color getCustomerLoanStatusColor(LoanStatus status) {
       return AppTheme.successColor;
     case LoanStatus.overdue:
       return AppTheme.warningColor;
+  }
+}
+
+/// Returns the localized status text for a loan status
+String getLocalizedLoanStatus(LoanStatus status) {
+  switch (status) {
+    case LoanStatus.active:
+      return 'loan.active'.tr();
+    case LoanStatus.completed:
+      return 'loan.completed'.tr();
+    case LoanStatus.overdue:
+      return 'loan.overdue'.tr();
   }
 }
 
@@ -62,7 +74,7 @@ class LoanListItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      loan.status.name.toUpperCase(),
+                      getLocalizedLoanStatus(loan.status).toUpperCase(),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
@@ -120,14 +132,14 @@ class LoanListItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Paid: ${currencyFormat.format(paid)}',
+                    '${'loan.total_paid'.tr()}: ${currencyFormat.format(paid)}',
                     style: const TextStyle(
                       fontSize: 12,
                       color: AppTheme.successColor,
                     ),
                   ),
                   Text(
-                    'Remaining: ${currencyFormat.format(remaining)}',
+                    '${'loan.remaining'.tr()}: ${currencyFormat.format(remaining)}',
                     style: TextStyle(
                       fontSize: 12,
                       color: isDark ? Colors.grey[400] : Colors.grey[600],

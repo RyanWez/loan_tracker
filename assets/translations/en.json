@@ -25,7 +25,7 @@
         "title": "Customers",
         "add": "Add Customer",
         "edit": "Edit Customer",
-        "delete": "Delete Customer",
+        "delete": "⚠️Delete Customer",
         "name": "Name",
         "name_required": "Name *",
         "phone": "Phone",
@@ -39,13 +39,15 @@
         "loans": "Loans",
         "no_loans": "No loans yet",
         "name_required_msg": "Name is required",
-        "duplicate": "Customer with this name already exists"
+        "duplicate": "Customer with this name already exists",
+        "not_found": "Customer not found",
+        "add_loan_hint": "Tap Add to create a loan"
     },
     "loan": {
         "title": "Loan Details",
         "add": "Add Loan",
         "edit": "Edit Loan",
-        "delete": "Delete Loan",
+        "delete": "⚠️Delete Loan",
         "amount": "Loan Amount",
         "amount_required": "Loan Amount *",
         "principal": "Principal",
@@ -65,7 +67,10 @@
         "delete_confirm": "Are you sure you want to delete this loan?",
         "delete_warning": "This will also delete all associated payments.",
         "info": "Loan Information",
-        "amount_required_msg": "Please enter loan amount"
+        "amount_required_msg": "Please enter loan amount",
+        "not_found": "Loan not found",
+        "payment_progress": "Payment Progress",
+        "cannot_delete": "Cannot delete this loan. There is still remaining balance."
     },
     "payment": {
         "title": "Payment History",
@@ -79,7 +84,10 @@
         "add_first": "Add the first payment",
         "remaining": "Remaining: {amount}",
         "exceed_warning": "Payment exceeds remaining amount",
-        "amount_required_msg": "Please enter amount"
+        "amount_required_msg": "Please enter amount",
+        "add_hint": "Tap + to record a payment",
+        "delete_confirm": "⚠️Delete Payment?",
+        "delete_warning": "Are you sure you want to delete this payment? This action cannot be undone."
     },
     "settings": {
         "title": "Settings",
@@ -120,13 +128,15 @@
         "delete": "Delete",
         "edit": "Edit",
         "confirm": "Confirm",
-        "add": "Add"
+        "add": "Add",
+        "ok": "OK"
     },
     "messages": {
         "loading": "Loading...",
         "success": "Success",
         "error": "An error occurred",
         "required": "This field is required",
-        "invalid_amount": "Please enter a valid amount"
+        "invalid_amount": "Please enter a valid amount",
+        "max_amount": "Maximum amount is 99,999,999 MMK"
     }
 }
