@@ -18,6 +18,40 @@ class PaymentListTile extends StatelessWidget {
     this.onDismissed,
   });
 
+  Future<bool> _showDeleteConfirmation(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          'Delete Payment?',
+          style: TextStyle(
+            color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete this payment of ${currencyFormat.format(payment.amount)}? This action cannot be undone.',
+          style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.errorColor,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,6 +68,7 @@ class PaymentListTile extends StatelessWidget {
           ),
           child: const Icon(Icons.delete_rounded, color: Colors.white),
         ),
+        confirmDismiss: (direction) => _showDeleteConfirmation(context),
         onDismissed: onDismissed != null ? (direction) => onDismissed!() : null,
         child: Container(
           padding: const EdgeInsets.all(16),

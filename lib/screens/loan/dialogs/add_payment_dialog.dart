@@ -190,11 +190,15 @@ void showAddPaymentDialog(
                       createdAt: now,
                     );
 
+                    // Get total paid BEFORE adding new payment to avoid double counting
+                    final currentTotalPaid = storage.getTotalPaidForLoan(
+                      loanId,
+                    );
+
                     storage.addPayment(payment);
 
-                    // Auto-complete loan if fully paid
-                    final newTotalPaid =
-                        storage.getTotalPaidForLoan(loanId) + amount;
+                    // Auto-complete loan if fully paid (remaining balance is exactly 0)
+                    final newTotalPaid = currentTotalPaid + amount;
                     if (newTotalPaid >= loan.totalAmount) {
                       loan.status = LoanStatus.completed;
                       loan.updatedAt = DateTime.now();

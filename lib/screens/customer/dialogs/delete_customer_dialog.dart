@@ -16,11 +16,14 @@ void showDeleteCustomerConfirmation(
   final loans = storage.getLoansForCustomer(customerId);
   final hasActiveLoans = loans.any((loan) => loan.status == LoanStatus.active);
 
+  // Capture the parent navigator before showing dialog
+  final parentNavigator = Navigator.of(context);
+
   if (hasActiveLoans) {
     // Show warning that customer has active loans
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
@@ -35,7 +38,7 @@ void showDeleteCustomerConfirmation(
         ),
         actions: [
           ElevatedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('OK'),
           ),
         ],
@@ -46,7 +49,7 @@ void showDeleteCustomerConfirmation(
 
   showDialog(
     context: context,
-    builder: (context) => AlertDialog(
+    builder: (dialogContext) => AlertDialog(
       backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
@@ -61,14 +64,19 @@ void showDeleteCustomerConfirmation(
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(dialogContext),
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () {
-            storage.deleteCustomer(customerId);
-            Navigator.pop(context);
-            Navigator.pop(context);
+          onPressed: () async {
+            // Close dialog first
+            Navigator.pop(dialogContext);
+            // Delete the customer
+            await storage.deleteCustomer(customerId);
+            // Navigate back to previous screen using parent navigator
+            if (context.mounted) {
+              parentNavigator.pop();
+            }
           },
           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.errorColor),
           child: const Text('Delete'),
