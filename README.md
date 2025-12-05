@@ -1,4 +1,4 @@
-# 💰 Loan Tracking App
+# 💰 Loan Tracker App
 
 A beautiful and modern Flutter application for managing customer loans and payments. Track debts, record payments, and monitor loan statuses with an intuitive user interface.
 
@@ -112,12 +112,6 @@ flutter pub get
 ```bash
 flutter run
 ```
-
-## 📱 Screenshots
-
-| Dashboard | Customers | Loan Details |
-|-----------|-----------|--------------|
-| Overview stats | Customer list | Payment progress |
 
 ## 🔧 Configuration
 
