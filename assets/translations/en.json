@@ -35,6 +35,7 @@
         "add_first": "Add your first customer to get started",
         "delete_confirm": "Are you sure you want to delete this customer?",
         "delete_warning": "This will also delete all associated loans and payments.",
+        "has_active_loans": "Cannot delete this customer. There are still active loans with remaining balance. Please complete all loans first.",
         "loans": "Loans",
         "no_loans": "No loans yet",
         "name_required_msg": "Name is required",

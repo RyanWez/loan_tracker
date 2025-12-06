@@ -21,20 +21,29 @@ void showDeleteCustomerConfirmation(
   final parentNavigator = Navigator.of(context);
 
   if (hasActiveLoans) {
-    // Show warning that customer has active loans
+    // Show warning that customer has active loans - cannot delete
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          'customer.delete'.tr(),
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1A1A2E),
-          ),
+        title: Row(
+          children: [
+            const Icon(
+              Icons.warning_amber_rounded,
+              color: AppTheme.warningColor,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'customer.delete'.tr(),
+              style: TextStyle(
+                color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+              ),
+            ),
+          ],
         ),
         content: Text(
-          'customer.delete_warning'.tr(),
+          'customer.has_active_loans'.tr(),
           style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
         ),
         actions: [
